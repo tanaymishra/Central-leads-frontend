@@ -129,19 +129,6 @@ export default function DashboardLayout({
                     {children}
                 </main>
             </div>
-
-            <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(0,0,0,0.05);
-          border-radius: 10px;
-        }
-        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-          background: rgba(0,0,0,0.1);
-        }
-      `}</style>
         </div>
     );
 }
