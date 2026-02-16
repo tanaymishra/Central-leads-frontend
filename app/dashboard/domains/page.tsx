@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Globe, ExternalLink, Shield, Loader2 } from 'lucide-react';
 import api from '@/lib/axios';
+import { Domain } from '@/hooks/types';
 
 export default function DomainsPage() {
-    const [domains, setDomains] = useState<any[]>([]);
+    const [domains, setDomains] = useState<Domain[]>([]);
     const [loading, setLoading] = useState(true);
     const [showAdd, setShowAdd] = useState(false);
     const [formData, setFormData] = useState({ name: '', url: '', api_key: '' });
@@ -70,7 +71,7 @@ export default function DomainsPage() {
                                 <Input
                                     placeholder="Website Name (e.g. My Blog)"
                                     value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, name: e.target.value })}
                                     required
                                 />
                             </div>
@@ -78,7 +79,7 @@ export default function DomainsPage() {
                                 <Input
                                     placeholder="URL (https://example.com)"
                                     value={formData.url}
-                                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, url: e.target.value })}
                                     required
                                 />
                             </div>
@@ -86,7 +87,7 @@ export default function DomainsPage() {
                                 <Input
                                     placeholder="API Key (Optional)"
                                     value={formData.api_key}
-                                    onChange={(e) => setFormData({ ...formData, api_key: e.target.value })}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, api_key: e.target.value })}
                                     className="flex-1"
                                 />
                                 <Button type="submit" disabled={isSubmitting}>

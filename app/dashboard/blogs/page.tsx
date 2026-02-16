@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Plus, FileText, Search, Loader2, Calendar, Globe, MoreHorizontal } from 'lucide-react';
 import api from '@/lib/axios';
 import Link from 'next/link';
+import { Blog } from '@/hooks/types';
 
 export default function BlogsPage() {
-    const [blogs, setBlogs] = useState<any[]>([]);
+    const [blogs, setBlogs] = useState<Blog[]>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchBlogs = async () => {
@@ -84,7 +85,7 @@ export default function BlogsPage() {
                                         </span>
                                         <span className="flex items-center gap-1.5">
                                             <FileText className="w-3.5 h-3.5" />
-                                            {Math.ceil(blog.content.length / 500)} min read
+                                            {Math.ceil((blog.content || '').length / 500)} min read
                                         </span>
                                     </div>
                                 </div>

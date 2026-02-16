@@ -2,14 +2,34 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { BarChart3, User } from 'lucide-react';
+import { BarChart3, User as UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
-export default function DashboardPage() {
-    const { user } = useAuth();
+interface MetricCardProps {
+    title: string;
+    value: string;
+    change: string;
+    trend: 'up' | 'down';
+}
 
+function MetricCard({ title, value, change, trend }: MetricCardProps) {
+    return (
+        <Card className="border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:bg-card hover:border-primary/20">
+            <CardContent className="p-6">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{title}</p>
+                <div className="flex items-baseline justify-between">
+                    <h2 className="text-2xl font-bold tracking-tight">{value}</h2>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${trend === 'up' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-destructive/10 text-destructive'}`}>
+                        {change}
+                    </span>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
+
+export default function DashboardPage() {
     return (
         <div className="p-8 pb-16">
             <div className="max-w-6xl mx-auto">
@@ -56,7 +76,7 @@ export default function DashboardPage() {
                                 {[1, 2, 3, 4].map((i) => (
                                     <div key={i} className="flex gap-4 items-start">
                                         <div className="w-8 h-8 rounded-full bg-secondary border border-border shrink-0 flex items-center justify-center">
-                                            <User className="w-4 h-4 text-muted-foreground" />
+                                            <UserIcon className="w-4 h-4 text-muted-foreground" />
                                         </div>
                                         <div className="space-y-1">
                                             <p className="text-sm font-medium leading-none">Kaushik added a new lead</p>
@@ -70,21 +90,5 @@ export default function DashboardPage() {
                 </div>
             </div>
         </div>
-    );
-}
-
-function MetricCard({ title, value, change, trend }: { title: string, value: string, change: string, trend: 'up' | 'down' }) {
-    return (
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:bg-card hover:border-primary/20">
-            <CardContent className="p-6">
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{title}</p>
-                <div className="flex items-baseline justify-between">
-                    <h2 className="text-2xl font-bold tracking-tight">{value}</h2>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${trend === 'up' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-destructive/10 text-destructive'}`}>
-                        {change}
-                    </span>
-                </div>
-            </CardContent>
-        </Card>
     );
 }

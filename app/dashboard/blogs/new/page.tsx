@@ -5,11 +5,12 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Save, Send, ArrowLeft, Image as ImageIcon, Link as LinkIcon, Globe, ChevronDown } from 'lucide-react';
+import { Loader2, Save, Send, ArrowLeft, Image as ImageIcon, Globe, ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import api from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Domain } from '@/hooks/types';
 
 // Dynamically import Quill to avoid SSR issues
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -18,7 +19,7 @@ import 'react-quill-new/dist/quill.snow.css';
 export default function NewBlogPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [domains, setDomains] = useState<any[]>([]);
+    const [domains, setDomains] = useState<Domain[]>([]);
     const [formData, setFormData] = useState({
         title: '',
         slug: '',
@@ -108,7 +109,7 @@ export default function NewBlogPage() {
                             <span>slug:</span>
                             <input
                                 value={formData.slug}
-                                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, slug: e.target.value })}
                                 className="bg-transparent border-none focus:ring-0 w-full"
                             />
                         </div>
@@ -116,7 +117,7 @@ export default function NewBlogPage() {
                             <ReactQuill
                                 theme="snow"
                                 value={formData.content}
-                                onChange={(val) => setFormData({ ...formData, content: val })}
+                                onChange={(val: string) => setFormData({ ...formData, content: val })}
                                 modules={modules}
                                 formats={formats}
                                 className="h-full border-none"
@@ -135,7 +136,7 @@ export default function NewBlogPage() {
                                     <select
                                         className="w-full bg-secondary/50 border border-border/50 rounded-lg h-10 px-3 pr-10 appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                                         value={formData.domain_id}
-                                        onChange={(e) => setFormData({ ...formData, domain_id: e.target.value })}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, domain_id: e.target.value })}
                                     >
                                         {domains.map(d => (
                                             <option key={d.id} value={d.id}>{d.name}</option>
@@ -151,7 +152,7 @@ export default function NewBlogPage() {
                                     className="w-full bg-secondary/50 border border-border/50 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none h-24"
                                     placeholder="Summarize this post for search engines..."
                                     value={formData.excerpt}
-                                    onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, excerpt: e.target.value })}
                                 />
                             </div>
 
@@ -193,30 +194,6 @@ export default function NewBlogPage() {
                     </Card>
                 </div>
             </div>
-
-            <style jsx global>{`
-        .ql-toolbar.ql-snow {
-          border: none !important;
-          border-bottom: 1px solid rgba(0,0,0,0.05) !important;
-          padding: 12px 24px !important;
-          background: #fcfcfc !important;
-        }
-        .ql-container.ql-snow {
-          border: none !important;
-          font-family: inherit !important;
-          font-size: 16px !important;
-        }
-        .ql-editor {
-          padding: 32px 40px !important;
-          min-height: 500px !important;
-        }
-        .ql-editor.ql-blank::before {
-          left: 40px !important;
-          font-style: italic !important;
-          color: #94a3b8 !important;
-          opacity: 0.5 !important;
-        }
-      `}</style>
         </div>
     );
 }

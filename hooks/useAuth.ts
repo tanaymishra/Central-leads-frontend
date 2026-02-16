@@ -2,9 +2,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '../lib/axios';
+import { User } from './types';
 
 export const useAuth = () => {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
@@ -13,7 +14,13 @@ export const useAuth = () => {
         const token = localStorage.getItem('token');
 
         if (storedUser && token) {
-            setUser(JSON.parse(storedUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error('Failed to parse stored user', e);
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+            }
         }
         setLoading(false);
     }, []);
