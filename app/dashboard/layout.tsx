@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { LogOut, LayoutDashboard, User, Users, Briefcase, BarChart3, Settings, Bell, Search, Globe, FileText, Magnet, Menu, X } from 'lucide-react';
