@@ -29,3 +29,19 @@ export interface Blog {
     created_at: string;
     updated_at: string;
 }
+
+export interface Lead {
+    id: number;
+    domain_id: number;
+    domain_name?: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    message: string;
+    source: string;
+    status: 'new' | 'contacted' | 'qualified' | 'closed';
+    metadata: any;
+    created_at: string;
+    updated_at: string;
+}
