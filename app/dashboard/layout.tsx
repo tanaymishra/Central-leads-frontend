@@ -50,15 +50,6 @@ export default function DashboardLayout({
                             <SidebarLink icon={<Magnet />} label="Leads" href="/dashboard/leads" />
                             <SidebarLink icon={<Globe />} label="Domains" href="/dashboard/domains" />
                             <SidebarLink icon={<FileText />} label="Blogs" href="/dashboard/blogs" />
-                            <SidebarLink icon={<BarChart3 />} label="Analytics" href="/dashboard/analytics" />
-                        </nav>
-                    </div>
-
-                    <div>
-                        <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 px-4">Platform</h3>
-                        <nav className="space-y-1">
-                            <SidebarLink icon={<Settings />} label="Settings" href="/dashboard/settings" />
-                            <SidebarLink icon={<Users />} label="Teams" href="/dashboard/teams" />
                         </nav>
                     </div>
                 </div>
