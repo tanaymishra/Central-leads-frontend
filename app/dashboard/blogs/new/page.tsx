@@ -54,13 +54,19 @@ export default function NewBlogPage() {
     };
 
     const handleSave = async (status: string) => {
+        if (!formData.domain_id) {
+            alert('Please select a domain first. If no domains exist, create one in the Domains section.');
+            return;
+        }
+
         setLoading(true);
         try {
             await api.post('/blogs', { ...formData, status });
             router.push('/dashboard/blogs');
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert('Failed to save blog. Slug might be duplicate.');
+            const msg = err.response?.data?.message || 'Failed to save blog. Slug might be duplicate or required fields missing.';
+            alert(msg);
         } finally {
             setLoading(false);
         }
