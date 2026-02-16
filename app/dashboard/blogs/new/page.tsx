@@ -88,38 +88,38 @@ export default function NewBlogPage() {
     ];
 
     return (
-        <div className="p-8 pb-32 max-w-5xl mx-auto">
-            <div className="flex items-center gap-4 mb-8">
+        <div className="p-4 md:p-8 pb-32 max-w-5xl mx-auto">
+            <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                 <Link href="/dashboard/blogs">
-                    <Button variant="ghost" size="icon" className="rounded-full">
-                        <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+                    <Button variant="ghost" size="icon" className="rounded-full h-8 w-8 md:h-10 md:w-10">
+                        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                     </Button>
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Compose Blog</h1>
-                    <p className="text-sm text-muted-foreground">Draft and publish high-quality content for your websites.</p>
+                    <h1 className="text-xl md:text-2xl font-bold tracking-tight">Compose Blog</h1>
+                    <p className="text-xs md:text-sm text-muted-foreground">Draft and publish high-quality content.</p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                 {/* Editor Main */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
                     <Card className="border-border/50 shadow-sm overflow-hidden bg-card">
                         <Input
                             placeholder="Post Title"
-                            className="text-2xl font-bold h-16 border-none shadow-none rounded-none px-6 focus-visible:ring-0"
+                            className="text-xl md:text-2xl font-bold h-14 md:h-16 border-none shadow-none rounded-none px-4 md:px-6 focus-visible:ring-0"
                             value={formData.title}
                             onChange={handleTitleChange}
                         />
-                        <div className="border-y border-border/30 bg-secondary/20 px-6 py-2 flex items-center gap-2 text-xs text-muted-foreground font-mono">
-                            <span>slug:</span>
+                        <div className="border-y border-border/30 bg-secondary/20 px-4 md:px-6 py-2 flex items-center gap-2 text-[10px] md:text-xs text-muted-foreground font-mono">
+                            <span className="opacity-50">slug:</span>
                             <input
                                 value={formData.slug}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, slug: e.target.value })}
-                                className="bg-transparent border-none focus:ring-0 w-full"
+                                className="bg-transparent border-none focus:ring-0 w-full p-0 h-auto"
                             />
                         </div>
-                        <div className="quill-editor-container min-h-[500px]">
+                        <div className="quill-editor-container min-h-[400px] md:min-h-[500px]">
                             <ReactQuill
                                 theme="snow"
                                 value={formData.content}
@@ -133,30 +133,31 @@ export default function NewBlogPage() {
                 </div>
 
                 {/* Sidebar Settings */}
-                <div className="space-y-6">
+                <div className="space-y-6 order-1 lg:order-2">
                     <Card className="border-border/50 shadow-sm bg-card">
-                        <CardContent className="p-6 space-y-6">
+                        <CardContent className="p-4 md:p-6 space-y-5 md:space-y-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Target Domain</label>
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Target Domain</label>
                                 <div className="relative">
                                     <select
                                         className="w-full bg-secondary/50 border border-border/50 rounded-lg h-10 px-3 pr-10 appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                                         value={formData.domain_id}
                                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({ ...formData, domain_id: e.target.value })}
                                     >
+                                        <option value="" disabled>Select a domain</option>
                                         {domains.map(d => (
                                             <option key={d.id} value={d.id}>{d.name}</option>
                                         ))}
                                     </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none opacity-50" />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Short Excerpt</label>
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Short Excerpt</label>
                                 <textarea
                                     className="w-full bg-secondary/50 border border-border/50 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none h-24"
-                                    placeholder="Summarize this post for search engines..."
+                                    placeholder="Summarize this post..."
                                     value={formData.excerpt}
                                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, excerpt: e.target.value })}
                                 />
@@ -164,7 +165,7 @@ export default function NewBlogPage() {
 
                             <div className="space-y-3 pt-4 border-t border-border/30">
                                 <Button
-                                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white"
+                                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-11"
                                     disabled={loading}
                                     onClick={() => handleSave('published')}
                                 >
@@ -173,7 +174,7 @@ export default function NewBlogPage() {
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="w-full bg-card"
+                                    className="w-full bg-card h-11"
                                     disabled={loading}
                                     onClick={() => handleSave('draft')}
                                 >
@@ -184,17 +185,17 @@ export default function NewBlogPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-border/50 shadow-sm bg-card border-dashed">
+                    <Card className="border-border/50 shadow-sm bg-card border-dashed hidden md:block">
                         <CardContent className="p-6">
                             <div className="flex flex-col items-center gap-3 text-center py-4">
                                 <div className="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary/30">
                                     <ImageIcon className="w-6 h-6" />
                                 </div>
-                                <div>
+                                <div className="space-y-1">
                                     <p className="text-sm font-semibold">Featured Image</p>
-                                    <p className="text-xs text-muted-foreground mt-1 text-balance">Recommended size: 1200x630px</p>
+                                    <p className="text-xs text-muted-foreground text-balance">1200x630px recommended</p>
                                 </div>
-                                <Button variant="ghost" size="sm" className="text-xs underline text-primary">Upload Asset</Button>
+                                <Button variant="ghost" size="sm" className="text-xs underline text-primary mt-2">Upload Asset</Button>
                             </div>
                         </CardContent>
                     </Card>

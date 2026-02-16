@@ -68,21 +68,21 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="p-8 pb-16">
+        <div className="p-4 md:p-8 pb-16">
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
                     <div>
-                        <h1 className="text-3xl font-bold text-foreground mb-1 tracking-tight">Main Dashboard</h1>
-                        <p className="text-muted-foreground">Real-time overview of your centralized ecosystem.</p>
+                        <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 tracking-tight">Main Dashboard</h1>
+                        <p className="text-sm md:text-base text-muted-foreground">Real-time overview of your centralized ecosystem.</p>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" size="sm">System Logs</Button>
-                        <Button size="sm">Export Data</Button>
+                        <Button variant="outline" size="sm" className="flex-1 md:flex-none">System Logs</Button>
+                        <Button size="sm" className="flex-1 md:flex-none">Export Data</Button>
                     </div>
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
                     <MetricCard
                         title="Total Leads"
                         value={stats?.totalLeads || 0}
@@ -115,25 +115,25 @@ export default function DashboardPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <Card className="lg:col-span-2 border-border/50 bg-card/30">
-                        <CardHeader>
-                            <CardTitle>Global Lead Activity</CardTitle>
-                            <CardDescription>Consolidated metrics across all connected sites</CardDescription>
+                        <CardHeader className="p-4 md:p-6">
+                            <CardTitle className="text-lg md:text-xl">Global Lead Activity</CardTitle>
+                            <CardDescription className="text-xs md:text-sm">Consolidated metrics across all connected sites</CardDescription>
                         </CardHeader>
-                        <CardContent className="h-[300px] flex items-center justify-center border-t border-border/10">
+                        <CardContent className="h-[200px] md:h-[300px] flex items-center justify-center border-t border-border/10">
                             <div className="text-muted-foreground flex flex-col items-center gap-2">
                                 <BarChart3 className="w-10 h-10 opacity-10" />
-                                <p className="text-sm font-medium opacity-30 italic">Real-time analytics engine starting up...</p>
+                                <p className="text-xs md:text-sm font-medium opacity-30 italic text-center px-4">Real-time analytics engine starting up...</p>
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card className="border-border/50 bg-card/30">
-                        <CardHeader>
-                            <CardTitle>System Health</CardTitle>
-                            <CardDescription>Backend & Integration status</CardDescription>
+                        <CardHeader className="p-4 md:p-6">
+                            <CardTitle className="text-lg md:text-xl">System Health</CardTitle>
+                            <CardDescription className="text-xs md:text-sm">Backend & Integration status</CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
+                        <CardContent className="p-4 md:p-6">
+                            <div className="space-y-3 md:space-y-4">
                                 <HealthRow label="Backend API" status="online" />
                                 <HealthRow label="Database (PostgreSQL)" status="online" />
                                 <HealthRow label="Rich Text Engine" status="online" />
