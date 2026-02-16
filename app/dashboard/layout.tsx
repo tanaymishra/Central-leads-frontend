@@ -143,7 +143,7 @@ function SidebarLink({ icon, label, href }: { icon: React.ReactNode, label: stri
             >
                 {active && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-primary rounded-r-lg shadow-[2px_0_8px_rgba(0,0,0,0.1)]" />}
                 <div className={`transition-transform duration-200 ${active ? 'scale-110' : 'group-hover:translate-x-0.5'}`}>
-                    {React.cloneElement(icon as React.ReactElement, { className: "w-4 h-4" })}
+                    {React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { className: "w-4 h-4" }) : icon}
                 </div>
                 <span className={`text-sm tracking-tight ${active ? 'font-bold' : 'font-medium'}`}>{label}</span>
             </Button>
