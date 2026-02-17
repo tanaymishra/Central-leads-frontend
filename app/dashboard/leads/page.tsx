@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Magnet, Search, Loader2, Calendar, Globe, User, Mail, Phone, MoreHorizontal, Filter } from 'lucide-react';
+import { Magnet, Search, Loader2, Calendar, Globe, User, Mail, Phone, MoreHorizontal, Filter, Clock, FileText } from 'lucide-react';
 import api from '@/lib/axios';
 import { Lead } from '@/hooks/types';
 
@@ -107,9 +107,35 @@ export default function LeadsPage() {
                                         </div>
 
                                         <div className="flex-1 lg:max-w-xs md:border-l border-border/30 md:pl-6">
-                                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 md:line-clamp-2 italic opacity-80">
+                                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 md:line-clamp-2 italic opacity-80 mb-2">
                                                 "{lead.message || 'No message provided.'}"
                                             </p>
+
+                                            {/* New Project Fields */}
+                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                {lead.subject && (
+                                                    <span className="text-[9px] bg-primary/5 text-primary px-1.5 py-0.5 rounded border border-primary/10 font-bold uppercase">
+                                                        {lead.subject}
+                                                    </span>
+                                                )}
+                                                {lead.deadline && (
+                                                    <span className="text-[9px] bg-orange-500/5 text-orange-500 px-1.5 py-0.5 rounded border border-orange-500/10 font-bold uppercase flex items-center gap-1">
+                                                        <Clock className="w-2.5 h-2.5" />
+                                                        {new Date(lead.deadline).toLocaleDateString()}
+                                                    </span>
+                                                )}
+                                                {lead.word_count && (
+                                                    <span className="text-[9px] bg-blue-500/5 text-blue-500 px-1.5 py-0.5 rounded border border-blue-500/10 font-bold uppercase">
+                                                        {lead.word_count} words
+                                                    </span>
+                                                )}
+                                                {lead.files && lead.files.length > 0 && (
+                                                    <span className="text-[9px] bg-emerald-500/5 text-emerald-500 px-1.5 py-0.5 rounded border border-emerald-500/10 font-bold uppercase flex items-center gap-1">
+                                                        <FileText className="w-2.5 h-2.5" />
+                                                        {lead.files.length} Attachments
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

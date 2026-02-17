@@ -42,6 +42,10 @@ export interface Lead {
     source: string;
     status: 'new' | 'contacted' | 'qualified' | 'closed';
     metadata: any;
+    deadline?: string;
+    subject?: string;
+    files?: any[];
+    word_count?: number;
     created_at: string;
     updated_at: string;
 }
