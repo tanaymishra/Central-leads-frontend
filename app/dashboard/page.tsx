@@ -17,13 +17,15 @@ interface MetricCardProps {
     trend?: string;
     color: string;
     delay?: number;
+    onClick?: () => void;
 }
 
-function MetricCard({ title, value, icon, description, trend, color, delay = 0 }: MetricCardProps) {
+function MetricCard({ title, value, icon, description, trend, color, delay = 0, onClick }: MetricCardProps) {
     return (
         <Card
+            onClick={onClick}
             style={{ animationDelay: `${delay}ms` }}
-            className="group relative overflow-hidden border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-500 hover:bg-card hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 rounded-2xl"
+            className={`group relative overflow-hidden border-border/40 bg-card/40 backdrop-blur-sm transition-all duration-500 hover:bg-card hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 rounded-2xl ${onClick ? 'cursor-pointer' : ''}`}
         >
             <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full blur-[50px] opacity-20 transition-opacity duration-500 group-hover:opacity-40 ${color.split(' ')[0]}`}></div>
             <CardContent className="p-6 relative z-10">
@@ -117,6 +119,7 @@ export default function DashboardPage() {
                         trend="12.5%"
                         color="bg-primary/10 text-primary"
                         delay={0}
+                        onClick={() => router.push('/dashboard/leads')}
                     />
                     <MetricCard
                         title="New (24h)"
@@ -126,6 +129,7 @@ export default function DashboardPage() {
                         trend="Trending"
                         color="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                         delay={100}
+                        onClick={() => router.push('/dashboard/leads')}
                     />
                     <MetricCard
                         title="Pending"
@@ -134,6 +138,7 @@ export default function DashboardPage() {
                         description="Leads awaiting action"
                         color="bg-orange-500/10 text-orange-600 dark:text-orange-400"
                         delay={200}
+                        onClick={() => router.push('/dashboard/leads')}
                     />
                     <MetricCard
                         title="Websites"
@@ -142,6 +147,7 @@ export default function DashboardPage() {
                         description="Active connected domains"
                         color="bg-blue-500/10 text-blue-600 dark:text-blue-400"
                         delay={300}
+                        onClick={() => router.push('/dashboard/domains')}
                     />
                 </div>
 
