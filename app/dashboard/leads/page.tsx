@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Magnet, Search, Loader2, Calendar, Globe, User, Mail, Phone, MoreHorizontal, Filter, Clock, FileText } from 'lucide-react';
+import { Magnet, Search, Loader2, Calendar, Globe, User, Mail, Phone, MoreHorizontal, Filter, Clock, FileText, Download } from 'lucide-react';
 import api from '@/lib/axios';
 import { Lead } from '@/hooks/types';
 import { useAuth } from '@/hooks/useAuth';
@@ -36,110 +36,123 @@ export default function LeadsPage() {
     }, [user, router]);
 
     return (
-        <div className="p-4 md:p-8 pb-16 max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 md:mb-10">
-                <div>
-                    <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 tracking-tight">Lead Management</h1>
-                    <p className="text-sm md:text-base text-muted-foreground">Monitor and respond to incoming inquiries from all connected domains.</p>
+        <div className="p-4 md:p-8 lg:p-10 pb-20 max-w-7xl mx-auto animate-in fade-in duration-500">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-12">
+                <div className="max-w-2xl">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3 tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/70">
+                        Lead Intelligence
+                    </h1>
+                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                        Monitor, filter, and respond to incoming global prospects automatically.
+                    </p>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1 md:flex-none">
-                        <Filter className="w-4 h-4 mr-2" />
+                <div className="flex gap-3 w-full md:w-auto">
+                    <Button variant="outline" size="lg" className="flex-1 md:flex-none border-border/50 hover:bg-secondary/50 rounded-xl">
+                        <Filter className="w-4 h-4 mr-2 text-primary" />
                         Filters
                     </Button>
-                    <Button size="sm" className="flex-1 md:flex-none">
-                        Export CSV
+                    <Button size="lg" className="flex-1 md:flex-none rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5">
+                        <Download className="w-4 h-4 mr-2" />
+                        Export
                     </Button>
                 </div>
             </div>
 
-            <Card className="mb-6 md:mb-8 border-border/50 bg-card/30">
-                <CardContent className="p-2 md:p-4 flex items-center gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                            placeholder="Search by name, email or domain..."
-                            className="w-full bg-transparent border-none focus:ring-0 pl-10 text-sm py-2"
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="mb-8 p-1.5 bg-secondary/30 backdrop-blur-md rounded-2xl border border-border/50 shadow-sm flex items-center gap-4 relative z-10 transition-colors focus-within:bg-secondary/50">
+                <Search className="ml-4 w-5 h-5 text-muted-foreground" />
+                <input
+                    placeholder="Search by name, email, or domain context..."
+                    className="w-full bg-transparent border-none focus:ring-0 text-sm py-3 outline-none transition-all placeholder:text-muted-foreground/70 font-medium"
+                />
+            </div>
 
             {loading ? (
-                <div className="flex justify-center p-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-primary/50" />
+                <div className="flex flex-col items-center justify-center p-20 gap-4">
+                    <Loader2 className="w-10 h-10 animate-spin text-primary/50" />
+                    <p className="text-sm font-medium text-muted-foreground animate-pulse">Scanning telemetry...</p>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {leads.map((lead) => (
-                        <Card key={lead.id} className="group hover:border-primary/30 transition-all border-border/50 bg-card/50 overflow-hidden">
-                            <div className="flex flex-col lg:flex-row lg:items-center">
-                                <div className="p-4 md:p-6 flex-1">
-                                    <div className="flex items-center gap-2 md:gap-3 mb-3">
-                                        <span className={`text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${lead.status === 'new' ? 'bg-blue-500/10 text-blue-500' :
-                                            lead.status === 'qualified' ? 'bg-emerald-500/10 text-emerald-500' :
-                                                'bg-secondary text-muted-foreground'
-                                            }`}>
-                                            {lead.status}
-                                        </span>
-                                        <span className="text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1">
-                                            <Globe className="w-3 h-3 text-primary/50" />
-                                            <span className="truncate max-w-[100px] md:max-w-none">{lead.domain_name}</span>
-                                        </span>
-                                        <span className="text-[9px] md:text-[10px] font-medium text-muted-foreground uppercase tracking-widest flex items-center gap-1 ml-auto">
-                                            <Calendar className="w-3 h-3" />
-                                            {new Date(lead.created_at).toLocaleDateString()}
+                <div className="space-y-5">
+                    {leads.map((lead, idx) => (
+                        <Card
+                            key={lead.id}
+                            style={{ animationDelay: `${idx * 50}ms` }}
+                            className="group hover:border-primary/40 transition-all duration-500 border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden hover:shadow-xl animate-in fade-in slide-in-from-bottom-4 rounded-2xl"
+                        >
+                            <div className="flex flex-col lg:flex-row lg:items-stretch relative">
+                                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary/50 to-transparent group-hover:from-primary transition-colors duration-500"></div>
+                                <div className="p-6 md:p-8 flex-1">
+                                    <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                                        <div className="flex items-center gap-3">
+                                            <span className={`px-2.5 py-1 text-[10px] font-bold rounded-md uppercase tracking-widest border border-transparent shadow-sm flex items-center gap-1.5 ${lead.status === 'new' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' :
+                                                    lead.status === 'qualified' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' :
+                                                        'bg-secondary text-muted-foreground border-border/50'
+                                                }`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${lead.status === 'new' ? 'bg-blue-500' : lead.status === 'qualified' ? 'bg-emerald-500' : 'bg-muted-foreground'}`}></div>
+                                                {lead.status}
+                                            </span>
+                                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5 bg-secondary/50 px-2.5 py-1 rounded-md">
+                                                <Globe className="w-3 h-3 text-primary/60" />
+                                                <span className="truncate max-w-[120px] md:max-w-[200px]">{lead.domain_name}</span>
+                                            </span>
+                                        </div>
+                                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5 bg-background/50 px-2.5 py-1 rounded-md border border-border/40">
+                                            <Calendar className="w-3 h-3 text-primary/40" />
+                                            {new Date(lead.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                     </div>
 
-                                    <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                                        <div className="flex items-center gap-3 min-w-[200px]">
-                                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground">
-                                                <User className="w-5 h-5" />
+                                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
+                                        <div className="md:col-span-4 lg:col-span-3 flex items-start gap-4">
+                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-secondary to-secondary/50 flex flex-shrink-0 items-center justify-center text-muted-foreground border border-border/50 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                                                <User className="w-6 h-6" />
                                             </div>
-                                            <div>
-                                                <h3 className="text-base md:text-lg font-bold text-foreground leading-none truncate">{lead.first_name} {lead.last_name}</h3>
-                                                <p className="text-xs text-muted-foreground mt-1 lowercase truncate opacity-70">{lead.source?.replace('_', ' ')}</p>
+                                            <div className="min-w-0">
+                                                <h3 className="text-lg md:text-xl font-bold text-foreground leading-tight truncate mb-1">{lead.first_name} {lead.last_name}</h3>
+                                                <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider truncate">{lead.source?.replace('_', ' ')}</p>
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-col gap-1.5 md:border-l border-border/30 md:pl-6">
-                                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground truncate">
-                                                <Mail className="w-3.5 h-3.5" />
-                                                {lead.email}
+                                        <div className="md:col-span-4 lg:col-span-3 flex flex-col gap-2.5 border-t md:border-t-0 md:border-l border-border/40 pt-4 md:pt-0 md:pl-6 lg:pl-8">
+                                            <div className="flex items-center gap-2.5 text-sm text-muted-foreground truncate hover:text-foreground transition-colors cursor-pointer group/contact">
+                                                <div className="w-6 h-6 rounded-md bg-secondary/80 flex items-center justify-center group-hover/contact:bg-primary/20 transition-colors">
+                                                    <Mail className="w-3 h-3 group-hover/contact:text-primary transition-colors" />
+                                                </div>
+                                                <span className="truncate">{lead.email}</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                                                <Phone className="w-3.5 h-3.5" />
+                                            <div className="flex items-center gap-2.5 text-sm text-muted-foreground truncate hover:text-foreground transition-colors cursor-pointer group/contact">
+                                                <div className="w-6 h-6 rounded-md bg-secondary/80 flex items-center justify-center group-hover/contact:bg-primary/20 transition-colors">
+                                                    <Phone className="w-3 h-3 group-hover/contact:text-primary transition-colors" />
+                                                </div>
                                                 {lead.phone || 'N/A'}
                                             </div>
                                         </div>
 
-                                        <div className="flex-1 lg:max-w-xs md:border-l border-border/30 md:pl-6">
-                                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 md:line-clamp-2 italic opacity-80 mb-2">
-                                                "{lead.message || 'No message provided.'}"
+                                        <div className="md:col-span-4 lg:col-span-6 border-t md:border-t-0 md:border-l border-border/40 pt-4 md:pt-0 md:pl-6 lg:pl-8">
+                                            <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed opacity-90 mb-4 bg-background/30 p-3 rounded-xl border border-border/30 shadow-inner block">
+                                                "{lead.message || 'No specific message context provided by the prospect.'}"
                                             </p>
 
-                                            {/* New Project Fields */}
-                                            <div className="flex flex-wrap gap-2 mt-2">
+                                            <div className="flex flex-wrap gap-2">
                                                 {lead.subject && (
-                                                    <span className="text-[9px] bg-primary/5 text-primary px-1.5 py-0.5 rounded border border-primary/10 font-bold uppercase">
+                                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-md font-bold uppercase tracking-wider border border-primary/20 shadow-sm">
                                                         {lead.subject}
                                                     </span>
                                                 )}
                                                 {lead.deadline && (
-                                                    <span className="text-[9px] bg-orange-500/5 text-orange-500 px-1.5 py-0.5 rounded border border-orange-500/10 font-bold uppercase flex items-center gap-1">
-                                                        <Clock className="w-2.5 h-2.5" />
+                                                    <span className="text-[10px] bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-1 rounded-md font-bold uppercase flex items-center gap-1.5 border border-orange-500/20 shadow-sm">
+                                                        <Clock className="w-3 h-3" />
                                                         {new Date(lead.deadline).toLocaleDateString()}
                                                     </span>
                                                 )}
                                                 {lead.word_count && (
-                                                    <span className="text-[9px] bg-blue-500/5 text-blue-500 px-1.5 py-0.5 rounded border border-blue-500/10 font-bold uppercase">
+                                                    <span className="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-md font-bold uppercase border border-blue-500/20 shadow-sm">
                                                         {lead.word_count} words
                                                     </span>
                                                 )}
                                                 {lead.files && lead.files.length > 0 && (
-                                                    <span className="text-[9px] bg-emerald-500/5 text-emerald-500 px-1.5 py-0.5 rounded border border-emerald-500/10 font-bold uppercase flex items-center gap-1">
-                                                        <FileText className="w-2.5 h-2.5" />
+                                                    <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-1 rounded-md font-bold uppercase flex items-center gap-1.5 border border-emerald-500/20 shadow-sm">
+                                                        <FileText className="w-3 h-3" />
                                                         {lead.files.length} Attachments
                                                     </span>
                                                 )}
@@ -147,9 +160,10 @@ export default function LeadsPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="px-4 py-3 bg-secondary/10 lg:bg-transparent border-t lg:border-t-0 lg:border-l border-border/30 flex items-center justify-between lg:justify-end gap-2">
-                                    <Button variant="outline" size="sm" className="flex-1 lg:flex-none">Action</Button>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-secondary">
+
+                                <div className="p-4 lg:p-6 lg:w-32 bg-gradient-to-r lg:bg-gradient-to-b from-secondary/30 to-transparent border-t lg:border-t-0 lg:border-l border-border/30 flex flex-row lg:flex-col items-center justify-between lg:justify-center gap-3">
+                                    <Button variant="default" size="sm" className="flex-1 lg:flex-none lg:w-full rounded-xl shadow-md">Reply</Button>
+                                    <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full hover:bg-background border border-transparent hover:border-border/50 transition-all opacity-100 lg:opacity-0 group-hover:opacity-100">
                                         <MoreHorizontal className="w-4 h-4" />
                                     </Button>
                                 </div>
@@ -158,9 +172,12 @@ export default function LeadsPage() {
                     ))}
 
                     {leads.length === 0 && (
-                        <div className="text-center p-12 md:p-20 bg-secondary/20 rounded-2xl border border-dashed border-border/50">
-                            <Magnet className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 opacity-10" />
-                            <p className="text-sm md:text-base text-muted-foreground italic max-w-xs mx-auto">No leads captured yet. Your centralized tracking is active.</p>
+                        <div className="flex flex-col items-center justify-center p-16 md:p-32 bg-gradient-to-b from-secondary/30 to-transparent rounded-3xl border border-dashed border-border/50 text-center animate-in fade-in zoom-in-95 duration-500">
+                            <div className="w-20 h-20 bg-background rounded-2xl shadow-sm border border-border/50 flex items-center justify-center mb-6">
+                                <Magnet className="w-10 h-10 text-primary/40" />
+                            </div>
+                            <h3 className="text-xl font-bold tracking-tight mb-2">Awaiting inbound telemetry</h3>
+                            <p className="text-base text-muted-foreground max-w-sm mb-0">Your centralized tracking is active, but no leads have been captured yet.</p>
                         </div>
                     )}
                 </div>
