@@ -69,6 +69,7 @@ export default function DashboardLayout({
                                     <SidebarLink icon={<LayoutDashboard />} label="Dashboard" href="/dashboard" onClick={() => setIsSidebarOpen(false)} />
                                     <SidebarLink icon={<Magnet />} label="Leads" href="/dashboard/leads" onClick={() => setIsSidebarOpen(false)} />
                                     <SidebarLink icon={<Globe />} label="Domains" href="/dashboard/domains" onClick={() => setIsSidebarOpen(false)} />
+                                    <SidebarLink icon={<Users />} label="Writers" href="/dashboard/writers" onClick={() => setIsSidebarOpen(false)} />
                                 </>
                             )}
                             <SidebarLink icon={<FileText />} label="Blogs" href="/dashboard/blogs" onClick={() => setIsSidebarOpen(false)} />
