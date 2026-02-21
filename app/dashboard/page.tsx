@@ -6,6 +6,8 @@ import { BarChart3, User as UserIcon, Loader2, Magnet, Globe, Clock, CheckCircle
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import api from '@/lib/axios';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 interface MetricCardProps {
     title: string;
@@ -44,8 +46,15 @@ interface Stats {
 export default function DashboardPage() {
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
+    const router = useRouter();
 
     useEffect(() => {
+        if (user && user.role?.toLowerCase() === 'writer') {
+            router.replace('/dashboard/blogs');
+            return;
+        }
+
         const fetchStats = async () => {
             try {
                 const res = await api.get('/stats/dashboard');
@@ -57,7 +66,7 @@ export default function DashboardPage() {
             }
         };
         fetchStats();
-    }, []);
+    }, [user, router]);
 
     if (loading) {
         return (

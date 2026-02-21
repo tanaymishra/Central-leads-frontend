@@ -34,7 +34,11 @@ export const useAuth = () => {
             localStorage.setItem('user', JSON.stringify(user));
             setUser(user);
 
-            router.push('/dashboard');
+            if (user?.role?.toLowerCase() === 'writer') {
+                router.push('/dashboard/blogs');
+            } else {
+                router.push('/dashboard');
+            }
             return { success: true };
         } catch (error: any) {
             console.error('Login error:', error);

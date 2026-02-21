@@ -7,10 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Magnet, Search, Loader2, Calendar, Globe, User, Mail, Phone, MoreHorizontal, Filter, Clock, FileText } from 'lucide-react';
 import api from '@/lib/axios';
 import { Lead } from '@/hooks/types';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function LeadsPage() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
+    const router = useRouter();
 
     const fetchLeads = async () => {
         try {
@@ -24,8 +28,12 @@ export default function LeadsPage() {
     };
 
     useEffect(() => {
+        if (user && user.role?.toLowerCase() === 'writer') {
+            router.replace('/dashboard/blogs');
+            return;
+        }
         fetchLeads();
-    }, []);
+    }, [user, router]);
 
     return (
         <div className="p-4 md:p-8 pb-16 max-w-6xl mx-auto">

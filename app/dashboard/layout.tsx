@@ -64,9 +64,13 @@ export default function DashboardLayout({
                     <div>
                         <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4 px-4">Menu</h3>
                         <nav className="space-y-1">
-                            <SidebarLink icon={<LayoutDashboard />} label="Dashboard" href="/dashboard" onClick={() => setIsSidebarOpen(false)} />
-                            <SidebarLink icon={<Magnet />} label="Leads" href="/dashboard/leads" onClick={() => setIsSidebarOpen(false)} />
-                            <SidebarLink icon={<Globe />} label="Domains" href="/dashboard/domains" onClick={() => setIsSidebarOpen(false)} />
+                            {user?.role?.toLowerCase() !== 'writer' && (
+                                <>
+                                    <SidebarLink icon={<LayoutDashboard />} label="Dashboard" href="/dashboard" onClick={() => setIsSidebarOpen(false)} />
+                                    <SidebarLink icon={<Magnet />} label="Leads" href="/dashboard/leads" onClick={() => setIsSidebarOpen(false)} />
+                                    <SidebarLink icon={<Globe />} label="Domains" href="/dashboard/domains" onClick={() => setIsSidebarOpen(false)} />
+                                </>
+                            )}
                             <SidebarLink icon={<FileText />} label="Blogs" href="/dashboard/blogs" onClick={() => setIsSidebarOpen(false)} />
                         </nav>
                     </div>
@@ -108,7 +112,7 @@ export default function DashboardLayout({
                         <div className="relative w-full hidden sm:block">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search leads, domains or blogs..."
+                                placeholder={user?.role?.toLowerCase() === 'writer' ? "Search blogs..." : "Search leads, domains or blogs..."}
                                 className="bg-secondary/50 border-none shadow-none pl-10 focus-visible:ring-1 focus-visible:ring-primary/20 w-full rounded-full"
                             />
                         </div>

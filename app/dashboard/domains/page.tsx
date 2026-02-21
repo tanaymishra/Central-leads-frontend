@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Plus, Globe, ExternalLink, Shield, Loader2 } from 'lucide-react';
 import api from '@/lib/axios';
 import { Domain } from '@/hooks/types';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function DomainsPage() {
     const [domains, setDomains] = useState<Domain[]>([]);
@@ -15,6 +17,8 @@ export default function DomainsPage() {
     const [showAdd, setShowAdd] = useState(false);
     const [formData, setFormData] = useState({ name: '', url: '', api_key: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { user } = useAuth();
+    const router = useRouter();
 
     const fetchDomains = async () => {
         try {
@@ -28,8 +32,12 @@ export default function DomainsPage() {
     };
 
     useEffect(() => {
+        if (user && user.role?.toLowerCase() === 'writer') {
+            router.replace('/dashboard/blogs');
+            return;
+        }
         fetchDomains();
-    }, []);
+    }, [user, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
